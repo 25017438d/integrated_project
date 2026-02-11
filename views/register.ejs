@@ -1,12 +1,17 @@
 <%- include('layout', { user: null, body: `
-<h2>Register</h2>
-${ typeof error !== 'undefined' && error ? `<div class="alert alert-error">${ error }</div>` : '' }
-${ typeof success !== 'undefined' && success ? `<div class="alert alert-success">${ success }</div>` : '' }
-<form method="POST" action="/register">
-  <input name="login_id" placeholder="Login ID (min 3 characters)" required />
-  <input name="nickname" placeholder="Nickname" required />
-  <input name="email" type="email" placeholder="Email" required />
-  <input type="password" name="password" placeholder="Password (min 6 characters)" required />
-  <button type="submit">Sign Up</button>
-</form>
+<div class="form-container">
+  <h2>Register</h2>
+  ${ typeof error !== 'undefined' && error ? `<div class="alert alert-error">${ error }</div>` : '' }
+  ${ typeof success !== 'undefined' && success ? `<div class="alert alert-success">${ success }</div>` : '' }
+  <form method="POST" action="/register">
+    <input class="form-input" name="login_id" placeholder="Login ID (min 3 characters)" required />
+    <input class="form-input" name="nickname" placeholder="Nickname" required />
+    <input class="form-input" name="email" type="email" placeholder="Email" required />
+    <input class="form-input" type="password" name="password" placeholder="Password (min 6 characters)" required />
+    <button type="submit">Sign Up</button>
+  </form>
+  <div class="form-link">
+    Already have an account? <a href="/login">Login here</a>
+  </div>
+</div>
 ` }) %>

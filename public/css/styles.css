@@ -189,6 +189,7 @@ a:hover {
   box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  border-color: white;
 }
 
 ul {
@@ -528,6 +529,105 @@ img:hover {
   color: #999;
 }
 
+.form-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 450px;
+  margin: 2rem auto;
+  animation: fadeInUp 0.6s ease;
+}
+
+.form-container h2 {
+  color: #667eea;
+  text-shadow: none;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-size: 28px;
+  text-align: center;
+  animation: fadeInDown 0.6s ease;
+}
+
+.form-input {
+  display: block;
+  margin: 15px 0;
+  padding: 12px;
+  width: 100%;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  animation: slideInLeft 0.5s ease backwards;
+}
+
+.form-input:nth-of-type(1) { animation-delay: 0.1s; }
+.form-input:nth-of-type(2) { animation-delay: 0.2s; }
+.form-input:nth-of-type(3) { animation-delay: 0.3s; }
+.form-input:nth-of-type(4) { animation-delay: 0.4s; }
+.form-input:nth-of-type(5) { animation-delay: 0.5s; }
+
+.form-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.form-container button {
+  width: 100%;
+  margin-top: 20px;
+  animation: slideInUp 0.6s ease 0.5s backwards;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-link {
+  text-align: center;
+  margin-top: 2rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease 0.6s backwards;
+}
+
+.form-link a {
+  color: #667eea;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.form-link a:hover {
+  color: #764ba2;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.alert {
+  animation: slideIn 0.3s ease !important;
+}
+
 @media (max-width: 768px) {
   .notices-header {
     flex-direction: column;
@@ -540,5 +640,9 @@ img:hover {
 
   .search-box {
     max-width: 100%;
+  }
+
+  .form-container {
+    padding: 30px 20px;
   }
 }
