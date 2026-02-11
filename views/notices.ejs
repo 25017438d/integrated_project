@@ -24,8 +24,13 @@
       <% } %>
     </nav>
     <main>
-      <h2>All Notices</h2>
-      <ul>
+      <div class="notices-header">
+        <h2>All Notices</h2>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="🔍 Search by item or location..." />
+        </div>
+      </div>
+      <ul id="noticesList">
         <% notices.forEach(n => { %>
           <li class="notice">
             <div class="notice-header">

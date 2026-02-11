@@ -9,6 +9,27 @@ document.addEventListener('DOMContentLoaded', () => {
       link.classList.add('active');
     }
   });
+
+  // Search functionality
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const notices = document.querySelectorAll('.notice');
+      
+      notices.forEach(notice => {
+        const description = notice.querySelector('p')?.textContent.toLowerCase() || '';
+        const venue = notice.querySelector('small')?.textContent.toLowerCase() || '';
+        const text = description + ' ' + venue;
+        
+        if (text.includes(query)) {
+          notice.style.display = 'block';
+        } else {
+          notice.style.display = 'none';
+        }
+      });
+    });
+  }
 });
 
 // DOM Elements
