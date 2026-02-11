@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";
+import flash from "connect-flash";
 import { fileURLToPath } from "url";
 import path from "path";
 
@@ -34,6 +35,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use(flash());
 
 // Passport setup
 initializePassport(passport);

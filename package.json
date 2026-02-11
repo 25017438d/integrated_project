@@ -2,6 +2,7 @@
   "name": "lost-and-found",
   "version": "1.0.0",
   "description": "Online lost and found system using Node.js, Express, and MongoDB",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,11 +10,13 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
-    "dotenv": "^16.4.1",
+    "dotenv": "^16.6.1",
     "ejs": "^3.1.9",
     "express": "^4.19.0",
     "express-session": "^1.18.1",
+    "mongodb": "^7.1.0",
     "mongoose": "^8.3.1",
     "multer": "^1.4.5-lts.1",
     "passport": "^0.7.0",
@@ -23,4 +26,3 @@
     "nodemon": "^3.0.2"
   }
 }
-

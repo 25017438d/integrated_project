@@ -1,4 +1,55 @@
 <%- include('layout', { user: user, body: `
-<h1>Welcome to Lost & Found!</h1>
-<p>Find your missing items or report found ones easily.</p>
+<div class="hero">
+  <h1>🔍 Welcome to Lost & Found</h1>
+  <p>Connect with your community to find lost items or help others recover theirs</p>
+  
+  <div class="cta-buttons">
+    ${ user ? `
+      <a href="/notices" class="btn-primary">View All Notices</a>
+      <a href="/notices/new" class="btn-primary">Post a Notice</a>
+    ` : `
+      <a href="/login" class="btn-primary">Login</a>
+      <a href="/register" class="btn-primary">Register Now</a>
+    ` }
+  </div>
+</div>
+
+<h2 style="text-align: center; margin: 2rem 0;">How It Works</h2>
+
+<div class="features">
+  <div class="feature-card">
+    <div class="icon">📝</div>
+    <h3>Post Notices</h3>
+    <p>Report lost or found items with photos and detailed descriptions</p>
+  </div>
+  
+  <div class="feature-card">
+    <div class="icon">🔎</div>
+    <h3>Search Items</h3>
+    <p>Browse through all notices and find items you're looking for</p>
+  </div>
+  
+  <div class="feature-card">
+    <div class="icon">💬</div>
+    <h3>Connect</h3>
+    <p>Reply to notices to get in touch with other community members</p>
+  </div>
+  
+  <div class="feature-card">
+    <div class="icon">✅</div>
+    <h3>Recover Items</h3>
+    <p>Successfully reunite with your lost items or help others find theirs</p>
+  </div>
+</div>
+
+<div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); text-align: center;">
+  <h3>Why Use Lost & Found?</h3>
+  <ul style="display: inline-block; text-align: left; max-width: 500px;">
+    <li>Post & search for lost items easily</li>
+    <li>Connect directly with community members</li>
+    <li>Upload photos for better identification</li>
+    <li>Get notifications when someone replies</li>
+    <li>Free to use - help your community</li>
+  </ul>
+</div>
 ` }) %>
