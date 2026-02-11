@@ -1,6 +1,5 @@
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";

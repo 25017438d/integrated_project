@@ -1,0 +1,12 @@
+<%- include('layout', { user: user, body: `
+<h2>All Notices</h2>
+<ul>
+  <% notices.forEach(n => { %>
+    <li>
+      <strong>[<%= n.type.toUpperCase() %>]</strong>
+      <%= n.description %> — by <%= n.owner?.nickname || "Anonymous" %>
+      <% if (n.image) { %><br><img src="<%= n.image %>" width="100"/><% } %>
+    </li>
+  <% }) %>
+</ul>
+` }) %>

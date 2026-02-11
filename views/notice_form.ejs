@@ -1,0 +1,14 @@
+<%- include('layout', { user: user, body: `
+<h2>Create Notice</h2>
+<form action="/notices/new" method="POST" enctype="multipart/form-data">
+  <select name="type" required>
+    <option value="lost">Lost</option>
+    <option value="found">Found</option>
+  </select>
+  <input name="venue" placeholder="Location" />
+  <input name="contact" placeholder="Contact Info" required />
+  <textarea name="description" placeholder="Describe the item" required></textarea>
+  <input type="file" name="image" accept="image/*" />
+  <button type="submit">Submit</button>
+</form>
+` }) %>

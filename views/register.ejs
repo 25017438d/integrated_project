@@ -1,0 +1,10 @@
+<%- include('layout', { user: null, body: `
+<h2>Register</h2>
+<form method="POST" action="/register">
+  <input name="login_id" placeholder="Login ID" required />
+  <input name="nickname" placeholder="Nickname" required />
+  <input name="email" placeholder="Email" required />
+  <input type="password" name="password" placeholder="Password" required />
+  <button type="submit">Sign Up</button>
+</form>
+` }) %>
