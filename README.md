@@ -205,7 +205,7 @@ Contributions are welcome! To contribute:
 
 ## 👨‍💻 Author
 
-Created as a community service project for Lost & Found management.
+Cheng Tsz Hung and Derik
 
 ## 📞 Support
 
