@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forgot Password</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+    <div class="alert alert-error">
+      <% error.forEach(msg => { %>
+        <div><%= msg %></div>
+      <% }); %>
+    </div>
+  <% } %>
+  <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
+    <div class="alert alert-success">
+      <% success.forEach(msg => { %>
+        <div><%= msg %></div>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="/notices">Notices</a>
+    <a href="/notices/new">Create Notice</a>
+    <% if (user) { %>
+      <a href="/profile">Profile</a>
+      <a href="/logout">Logout (<%= user.nickname %>)</a>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    <% } %>
+  </nav>
+
+  <main>
+    <div class="form-container">
+      <h2>Forgot Password</h2>
+      <p>Enter the email associated with your account. We'll generate a reset link.</p>
+      <form method="POST" action="/forgot">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required class="form-input">
+        </div>
+        <button type="submit" class="btn-primary">Send Reset Link</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

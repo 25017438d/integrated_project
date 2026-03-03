@@ -17,6 +17,7 @@
       <a href="/notices">Notices</a>
       <a href="/notices/new">Create Notice</a>
       <% if (user) { %>
+        <a href="/profile">Profile</a>
         <a href="/logout">Logout (<%= user.nickname %>)</a>
       <% } else { %>
         <a href="/login">Login</a>
@@ -35,7 +36,7 @@
           <li class="notice">
             <div class="notice-header">
               <strong>[<%= n.type.toUpperCase() %>]</strong>
-              <% if (user && String(user._id) === String(n.owner._id)) { %>
+              <% if (user && n.owner && String(user._id) === String(n.owner._id)) { %>
                 <button class="delete-btn" data-id="<%= n._id %>">🗑️ Delete</button>
               <% } %>
             </div>
@@ -50,8 +51,8 @@
               <% if (n.responses && n.responses.length > 0) { %>
                 <% n.responses.forEach(r => { %>
                   <div class="response">
-                    <strong><%= r.user.nickname %></strong>: <%= r.message %>
-                    <small><%= new Date(r.date).toLocaleDateString() %></small>
+                    <strong><%= r.user ? r.user.nickname : 'Anonymous' %></strong>: <%= r.message %>
+                    <small><%= r.date ? new Date(r.date).toLocaleDateString() : '' %></small>
                   </div>
                 <% }) %>
               <% } else { %>

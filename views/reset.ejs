@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset Password</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+    <div class="alert alert-error">
+      <% error.forEach(msg => { %>
+        <div><%= msg %></div>
+      <% }); %>
+    </div>
+  <% } %>
+  <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
+    <div class="alert alert-success">
+      <% success.forEach(msg => { %>
+        <div><%= msg %></div>
+      <% }); %>
+    </div>
+  <% } %>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="/notices">Notices</a>
+    <a href="/notices/new">Create Notice</a>
+    <% if (user) { %>
+      <a href="/profile">Profile</a>
+      <a href="/logout">Logout (<%= user.nickname %>)</a>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    <% } %>
+  </nav>
+
+  <main>
+    <div class="form-container">
+      <h2>Reset Password</h2>
+      <form method="POST" action="/reset/<%= token %>">
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <input id="newPassword" name="newPassword" type="password" required class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm New Password</label>
+          <input id="confirmPassword" name="confirmPassword" type="password" required class="form-input">
+        </div>
+        <div id="resetError" class="form-error" aria-live="polite"></div>
+        <button type="submit" class="btn-primary">Set New Password</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="/js/main.js"></script>
+  <script>
+    // small client-side check for reset form
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.querySelector('form');
+      const resetError = document.getElementById('resetError');
+      if (!form) return;
+      form.addEventListener('submit', (e) => {
+        resetError.textContent = '';
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const complexity = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+        if (newPassword !== confirmPassword) {
+          e.preventDefault();
+          resetError.textContent = 'Passwords do not match';
+          return;
+        }
+        if (!complexity.test(newPassword)) {
+          e.preventDefault();
+          resetError.textContent = 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character';
+          return;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

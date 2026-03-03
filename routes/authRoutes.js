@@ -1,6 +1,7 @@
 import express from "express";
 import passport from "passport";
 import { registerUser, logoutUser } from "../controllers/authController.js";
+import { renderForgot, handleForgot, renderReset, handleReset } from "../controllers/passwordController.js";
 
 const router = express.Router();
 
@@ -20,5 +21,11 @@ router.post(
 );
 
 router.get("/logout", logoutUser);
+
+// Password reset routes
+router.get('/forgot', renderForgot);
+router.post('/forgot', handleForgot);
+router.get('/reset/:token', renderReset);
+router.post('/reset/:token', handleReset);
 
 export default router;

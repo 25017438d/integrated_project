@@ -9,6 +9,7 @@ import path from "path";
 
 import authRoutes from "./routes/authRoutes.js";
 import noticeRoutes from "./routes/noticeRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js";
 import initializePassport from "./config/passport.js";
 import connectDB from "./config/db.js";
 import mongoose from "mongoose";
@@ -47,6 +48,7 @@ app.use(passport.session());
 // Routes
 app.use("/", authRoutes);
 app.use("/notices", noticeRoutes);
+app.use("/profile", profileRoutes);
 
 // Server start
 const PORT = process.env.PORT || 3000;

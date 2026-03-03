@@ -7,6 +7,9 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   profile_image: { type: String },
   password: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
 });
 
 userSchema.pre("save", async function () {

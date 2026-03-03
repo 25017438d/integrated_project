@@ -17,6 +17,7 @@
       <a href="/notices">Notices</a>
       <a href="/notices/new">Create Notice</a>
       <% if (user) { %>
+        <a href="/profile">Profile</a>
         <a href="/logout">Logout (<%= user.nickname %>)</a>
       <% } else { %>
         <a href="/login">Login</a>

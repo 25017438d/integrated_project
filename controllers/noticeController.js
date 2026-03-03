@@ -26,8 +26,27 @@ export const createNotice = async (req, res) => {
 };
 
 export const getAllNotices = async (req, res) => {
-  const notices = await Notice.find().populate("owner", "nickname").populate("responses.user", "nickname");
-  res.render("notices", { notices, user: req.user });
+  try {
+    // Fetch notices sorted newest-first
+    const notices = await Notice.find()
+      .sort({ date: -1 })
+      .populate("owner", "nickname")
+      .populate("responses.user", "nickname");
+
+    // Ensure each notice's responses are newest-first as well
+    const normalized = notices.map((n) => {
+      const notice = n.toObject ? n.toObject() : n;
+      if (notice.responses && Array.isArray(notice.responses)) {
+        notice.responses.sort((a, b) => new Date(b.date) - new Date(a.date));
+      }
+      return notice;
+    });
+
+    res.render("notices", { notices: normalized, user: req.user });
+  } catch (error) {
+    console.error("Error fetching notices:", error);
+    res.status(500).send("Error loading notices");
+  }
 };
 
 export const deleteNotice = async (req, res) => {

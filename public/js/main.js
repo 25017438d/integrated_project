@@ -3,12 +3,34 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = document.querySelectorAll('nav a');
   const currentPath = window.location.pathname;
   
+  // Remove all active classes first
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+  });
+  
+  // Find the best matching link
+  let bestMatch = null;
+  let bestMatchLength = 0;
+  
   navLinks.forEach(link => {
     const href = link.getAttribute('href');
-    if (currentPath === href || currentPath.startsWith(href + '/')) {
-      link.classList.add('active');
+    
+    // Exact match
+    if (currentPath === href) {
+      bestMatch = link;
+      bestMatchLength = href.length;
+    }
+    // Prefix match only if it's longer than current best and makes sense
+    else if (currentPath.startsWith(href + '/') && href.length > bestMatchLength && href !== '/') {
+      bestMatch = link;
+      bestMatchLength = href.length;
     }
   });
+  
+  // Highlight the best match
+  if (bestMatch) {
+    bestMatch.classList.add('active');
+  }
 
   // Search functionality
   const searchInput = document.getElementById('searchInput');
@@ -120,3 +142,5 @@ document.addEventListener("keydown", (e) => {
     closeModal();
   }
 });
+
+
