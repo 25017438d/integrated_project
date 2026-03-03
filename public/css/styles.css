@@ -331,6 +331,14 @@ img:hover {
   margin: 10px 0;
   color: #333;
 }
+/* make links inside notices stand out against white background */
+.notice a {
+  color: #667eea;
+  text-decoration: underline;
+}
+.notice a:hover {
+  color: #764ba2;
+}
 
 .notice small {
   color: #666;
@@ -826,6 +834,10 @@ img:hover {
   border-radius: 8px;
   margin-top: 30px;
   text-align: center;
+  color: #333;
+}
+.member-info p,
+.member-info span {
   color: #333;
 }
 
