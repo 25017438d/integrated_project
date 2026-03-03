@@ -26,15 +26,12 @@ router.post("/update", ensureAuth, updateProfile);
 router.post("/update-password", ensureAuth, updatePassword);
 // Wrap multer so we can handle upload errors and show flash messages
 router.post("/update-image", ensureAuth, (req, res, next) => {
-  // if uploads directory is not writable we cannot save images
+  // log headers to file for debugging
   try {
-    fs.accessSync(uploadsDir, fs.constants.W_OK);
-  } catch (err) {
-    console.error('Uploads directory not writable:', err.message);
-    req.flash('error', 'Image upload is not supported on this server');
-    return res.redirect('/profile');
+    fs.appendFileSync('upload-debug.log', JSON.stringify(req.headers) + '\n');
+  } catch (e) {
+    console.error('Failed to write debug log', e);
   }
-
   upload.single('profileImage')(req, res, function (err) {
     if (err) {
       // Multer error (file too large / invalid type)
