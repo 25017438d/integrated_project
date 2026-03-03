@@ -116,21 +116,25 @@ export const updatePassword = async (req, res) => {
 export const updateProfileImage = async (req, res) => {
   try {
     if (!req.file) {
-      req.flash("error", "No image selected");
+      req.flash("error", "No image selected or upload failed");
       return res.redirect("/profile");
     }
 
     const user = await User.findById(req.user._id);
 
-    // Delete old profile image if exists
-    if (user.profile_image) {
+    // Only try deleting if the stored path is under public/uploads and fs is writable
+    if (user.profile_image && user.profile_image.startsWith('/uploads/')) {
       const oldImagePath = path.join(process.cwd(), "public", user.profile_image);
-      if (fs.existsSync(oldImagePath)) {
-        fs.unlinkSync(oldImagePath);
+      try {
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
+      } catch (err) {
+        console.warn('Could not remove old profile image', err.message);
       }
     }
 
-    // Update with new image path
+    // Update with new image path (file may not actually exist if stored elsewhere)
     user.profile_image = `/uploads/${req.file.filename}`;
     await user.save();
 
