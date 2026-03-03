@@ -1,7 +1,11 @@
 import Notice from "../models/Notice.js";
 
 export const renderNoticeForm = (req, res) => {
-  res.render("notice_form", { user: req.user });
+  res.render("notice_form", { 
+    user: req.user,
+    error: req.flash("error"),
+    success: req.flash("success"),
+  });
 };
 
 export const createNotice = async (req, res) => {
@@ -20,8 +24,10 @@ export const createNotice = async (req, res) => {
 
     res.redirect("/notices");
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Error creating notice");
+    console.error("Error in createNotice:", error);
+    // bubble up error to user
+    req.flash("error", "Error creating notice. " + (error.message || ""));
+    res.redirect("/notices/new");
   }
 };
 
