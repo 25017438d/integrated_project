@@ -99,20 +99,35 @@ async function deleteNotice(noticeId) {
     const response = await fetch(`/notices/${noticeId}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
       }
     });
     console.log("Response status:", response.status);
     
+    let data;
+    const contentType = response.headers.get("content-type") || "";
+    if (contentType.includes("application/json")) {
+      try {
+        data = await response.json();
+      } catch (e) {
+        console.warn("Failed to parse JSON response", e);
+      }
+    } else {
+      // non-JSON response (e.g. HTML redirect page)
+      const text = await response.text();
+      console.warn("Non-JSON response body:", text.slice(0, 200));
+    }
+
     if (response.ok) {
-      const data = await response.json();
       console.log("Success:", data);
       alert("Notice deleted successfully!");
       location.reload();
     } else {
-      const error = await response.json();
-      console.log("Error:", error);
-      alert("Error: " + (error.error || "Could not delete notice"));
+      console.log("Error:", data);
+      const msg = data && data.error ? data.error : "Could not delete notice";
+      alert("Error: " + msg);
     }
   } catch (error) {
     console.error("Error deleting notice:", error);
