@@ -8,24 +8,9 @@ import fs from "fs";
 const router = express.Router();
 
 // Multer configuration for profile images
-const uploadsDir = path.join(process.cwd(), "public", "uploads");
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, "profile-" + uniqueSuffix + path.extname(file.originalname));
-  },
-});
- 
-// Accept only image files and limit to 2MB
-const upload = multer({ 
-  storage,
+// use memory storage so we can either save to Mongo or forward to a cloud store
+const upload = multer({
+  storage: multer.memoryStorage(),
   limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
   fileFilter: (req, file, cb) => {
     if (!file.mimetype.startsWith('image/')) {

@@ -5,7 +5,10 @@ const userSchema = new mongoose.Schema({
   login_id: { type: String, required: true, unique: true },
   nickname: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  profile_image: { type: String },
+  profile_image: {
+    data: Buffer,
+    contentType: String,
+  },
   password: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   resetPasswordToken: { type: String },

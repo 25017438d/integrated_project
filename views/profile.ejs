@@ -43,8 +43,8 @@
       <div class="profile-picture-section">
         <form id="profileImageForm" method="POST" action="/profile/update-image" enctype="multipart/form-data" style="width: 100%;">
           <div class="current-picture" id="profilePictureContainer" style="cursor: pointer;">
-            <% if (user.profile_image) { %>
-              <img src="<%= user.profile_image %>" alt="<%= user.nickname %>" class="profile-picture" title="Click to change picture">
+            <% if (user.profile_image && user.profile_image.data) { %>
+              <img src="data:<%= user.profile_image.contentType %>;base64,<%= user.profile_image.data.toString('base64') %>" alt="<%= user.nickname %>" class="profile-picture" title="Click to change picture">
             <% } else { %>
               <div class="profile-picture-placeholder" title="Click to upload picture">
                 <span>📷</span>

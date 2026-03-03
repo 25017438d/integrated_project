@@ -115,27 +115,19 @@ export const updatePassword = async (req, res) => {
 
 export const updateProfileImage = async (req, res) => {
   try {
-    if (!req.file) {
+    if (!req.file || !req.file.buffer) {
       req.flash("error", "No image selected or upload failed");
       return res.redirect("/profile");
     }
 
     const user = await User.findById(req.user._id);
 
-    // Only try deleting if the stored path is under public/uploads and fs is writable
-    if (user.profile_image && user.profile_image.startsWith('/uploads/')) {
-      const oldImagePath = path.join(process.cwd(), "public", user.profile_image);
-      try {
-        if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath);
-        }
-      } catch (err) {
-        console.warn('Could not remove old profile image', err.message);
-      }
-    }
+    // store binary data directly in Mongo
+    user.profile_image = {
+      data: req.file.buffer,
+      contentType: req.file.mimetype,
+    };
 
-    // Update with new image path (file may not actually exist if stored elsewhere)
-    user.profile_image = `/uploads/${req.file.filename}`;
     await user.save();
 
     req.flash("success", "Profile picture updated successfully");
