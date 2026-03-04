@@ -14,9 +14,10 @@
     <% } %>
     <nav>
       <a href="/">Home</a>
-      <a href="/notices">Notices</a>
+      <a href="/notices">All Notices</a>
       <a href="/notices/new">Create Notice</a>
       <% if (user) { %>
+        <a href="/notices/my">My Notices</a>
         <a href="/profile">Profile</a>
         <a href="/logout">Logout (<%= user.nickname %>)</a>
       <% } else { %>

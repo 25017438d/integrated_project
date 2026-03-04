@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import {
   getAllNotices,
+  getMyNotices,
   renderNoticeForm,
   createNotice,
   deleteNotice,
@@ -21,10 +22,11 @@ const upload = multer({
       return cb(new Error("Only image files are allowed"));
     }
     cb(null, true);
-  }
+  },
 });
 
 router.get("/", getAllNotices);
+router.get("/my", ensureAuth, getMyNotices);
 router.get("/new", ensureAuth, renderNoticeForm);
 // Wrap multer so file-upload errors can be captured and flashed (same approach as profileRoutes)
 router.post("/new", ensureAuth, (req, res) => {
