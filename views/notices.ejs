@@ -1,83 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Lost & Found</title>
-    <link rel="stylesheet" href="/css/styles.css" />
-  </head>
-  <body>
-    <% if (typeof error !== 'undefined' && error) { %>
-      <div class="alert alert-error"><%= error %></div>
-    <% } %>
-    <% if (typeof success !== 'undefined' && success) { %>
-      <div class="alert alert-success"><%= success %></div>
-    <% } %>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/notices">Notices</a>
-      <a href="/notices/new">Create Notice</a>
-      <% if (user) { %>
-        <a href="/logout">Logout (<%= user.nickname %>)</a>
-      <% } else { %>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
-      <% } %>
-    </nav>
-    <main>
-      <div class="notices-header">
-        <h2>All Notices</h2>
-        <div class="search-box">
-          <input type="text" id="searchInput" placeholder="🔍 Search by item or location..." />
-        </div>
+<%- include('layout', { user: user, body: `
+<div class="notices-header">
+  <h2>All Notices</h2>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Search by item or location..." />
+  </div>
+</div>
+
+<ul id="noticesList">
+  ${notices.map(n => `
+    <li class="notice">
+      <div class="notice-header">
+        <strong>[${String(n.type || '').toUpperCase()}]</strong>
+
+        ${
+          (user && n.owner && String(user._id) === String(n.owner._id))
+            ? `<button class="delete-btn" data-id="${n._id}">🗑️ Delete</button>`
+            : ``
+        }
       </div>
-      <ul id="noticesList">
-        <% notices.forEach(n => { %>
-          <li class="notice">
-            <div class="notice-header">
-              <strong>[<%= n.type.toUpperCase() %>]</strong>
-              <% if (user && String(user._id) === String(n.owner._id)) { %>
-                <button class="delete-btn" data-id="<%= n._id %>">🗑️ Delete</button>
-              <% } %>
-            </div>
-            <p><strong><%= n.description %></strong> — by <%= n.owner?.nickname || "Anonymous" %></p>
-            <% if (n.image) { %>
-              <img class="notice-image" src="<%= n.image %>" width="100"/>
-            <% } %>
-            <p><small>📍 <%= n.venue %> | 📞 <%= n.contact %></small></p>
-            
-            <div class="responses">
-              <h4>Replies (<%= n.responses?.length || 0 %>):</h4>
-              <% if (n.responses && n.responses.length > 0) { %>
-                <% n.responses.forEach(r => { %>
-                  <div class="response">
-                    <strong><%= r.user.nickname %></strong>: <%= r.message %>
-                    <small><%= new Date(r.date).toLocaleDateString() %></small>
-                  </div>
-                <% }) %>
-              <% } else { %>
-                <p>No replies yet</p>
-              <% } %>
-            </div>
-            
-            <% if (user) { %>
-              <form method="POST" action="/notices/<%= n._id %>/reply" class="reply-form">
-                <input type="text" name="message" placeholder="Add a reply..." required />
-                <button type="submit">Reply</button>
-              </form>
-            <% } else { %>
-              <p><a href="/login">Login</a> to reply</p>
-            <% } %>
-          </li>
-        <% }) %>
-      </ul>
-    </main>
 
-    <!-- Image Modal -->
-    <div id="imageModal" class="modal">
-      <span class="modal-close">&times;</span>
-      <img class="modal-content" id="modalImage" src="" />
-    </div>
+      <p><strong>${n.description ?? ''}</strong> — by ${n.owner?.nickname || 'Anonymous'}</p>
 
-    <script src="/js/main.js"></script>
-  </body>
-</html>
+      ${
+        n.image
+          ? `<img class="notice-image" src="${n.image}" width="100" />`
+          : ``
+      }
+
+      <p><small>📍 ${n.venue ?? ''} | 📞 ${n.contact ?? ''}</small></p>
+
+      <div class="responses">
+        <h4>Replies (${(n.responses && n.responses.length) ? n.responses.length : 0}):</h4>
+
+        ${
+          (n.responses && n.responses.length > 0)
+            ? n.responses.map(r => `
+                <div class="response">
+                  <strong>${r.user ? (r.user.nickname || 'Anonymous') : 'Anonymous'}</strong>:
+                  ${r.message ?? ''}
+                  <small>${new Date(r.date).toLocaleDateString()}</small>
+                </div>
+              `).join('')
+            : `<p>No replies yet</p>`
+        }
+      </div>
+
+      ${
+        user
+          ? `
+            <form method="POST" action="/notices/${n._id}/reply" class="reply-form">
+              <input type="text" name="message" placeholder="Add a reply..." required />
+              <button type="submit">Reply</button>
+            </form>
+          `
+          : `<p><a href="/login">Login</a> to reply</p>`
+      }
+    </li>
+  `).join('')}
+</ul>
+
+<!-- Image Modal -->
+<div id="imageModal" class="modal">
+  <span class="modal-close">&times;</span>
+  <img class="modal-content" id="modalImage" src="" />
+</div>
+` }) %>
+  
