@@ -1,31 +1,31 @@
 // Highlight active nav link
-document.addEventListener('DOMContentLoaded', () => {
-  const navLinks = document.querySelectorAll('nav a');
+document.addEventListener("DOMContentLoaded", () => {
+  const navLinks = document.querySelectorAll("nav .nav-links a");
   const currentPath = window.location.pathname;
-  
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href');
-    if (currentPath === href || currentPath.startsWith(href + '/')) {
-      link.classList.add('active');
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (currentPath === href || currentPath.startsWith(href + "/")) {
+      link.classList.add("active");
     }
   });
 
   // Search functionality
-  const searchInput = document.getElementById('searchInput');
+  const searchInput = document.getElementById("searchInput");
   if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
+    searchInput.addEventListener("input", (e) => {
       const query = e.target.value.toLowerCase();
-      const notices = document.querySelectorAll('.notice');
-      
-      notices.forEach(notice => {
-        const description = notice.querySelector('p')?.textContent.toLowerCase() || '';
-        const venue = notice.querySelector('small')?.textContent.toLowerCase() || '';
-        const text = description + ' ' + venue;
-        
+      const notices = document.querySelectorAll(".notice");
+
+      notices.forEach((notice) => {
+        const description = notice.querySelector("p")?.textContent.toLowerCase() || "";
+        const venue = notice.querySelector("small")?.textContent.toLowerCase() || "";
+        const text = description + " " + venue;
+
         if (text.includes(query)) {
-          notice.style.display = 'block';
+          notice.style.display = "block";
         } else {
-          notice.style.display = 'none';
+          notice.style.display = "none";
         }
       });
     });
@@ -49,7 +49,7 @@ document.addEventListener("click", (e) => {
     modal.classList.add("show");
     document.body.style.overflow = "hidden";
   }
-  
+
   // Delete button click
   if (e.target.classList.contains("delete-btn")) {
     console.log("Delete button clicked!");
@@ -77,11 +77,11 @@ async function deleteNotice(noticeId) {
     const response = await fetch(`/notices/${noticeId}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     console.log("Response status:", response.status);
-    
+
     if (response.ok) {
       const data = await response.json();
       console.log("Success:", data);
