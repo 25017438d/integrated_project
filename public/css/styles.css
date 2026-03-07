@@ -20,7 +20,7 @@
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Montserrat", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-alt) 100%);
   color: #333;
   min-height: 100vh;
