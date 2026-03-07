@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   navLinks.forEach((link) => {
     const href = link.getAttribute("href");
-    if (currentPath === href || currentPath.startsWith(href + "/")) {
+    if (currentPath === href) {
       link.classList.add("active");
     }
   });
