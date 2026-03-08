@@ -596,13 +596,23 @@ img:hover {
 .form-container {
   background: var(--surface-primary-tint);
   backdrop-filter: blur(10px);
-  padding: 40px;
   border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  max-width: 450px;
-  margin: 2rem auto;
   animation: fadeInUp 0.6s ease;
+}
+
+.auth-form {
+  max-width: 450px;
+  padding: 40px;
+  margin: 2rem auto;
+}
+
+.notice-form {
+  width: 100%;
+  max-width: none;
+  padding: 20px;
+  margin: 15px 0;
 }
 
 .form-container h2 {
@@ -613,6 +623,17 @@ img:hover {
   font-size: 28px;
   text-align: center;
   animation: fadeInDown 0.6s ease;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  color: white;
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .form-input {
@@ -647,7 +668,6 @@ img:hover {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: var(--ring-primary-soft);
-  transform: translateY(-2px);
 }
 
 @keyframes slideInLeft {

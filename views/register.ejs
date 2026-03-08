@@ -1,14 +1,33 @@
 <%- include('layout', { user: null, body: `
-<div class="form-container">
+<div class="form-container auth-form">
   <h2>Register</h2>
-  ${ typeof error !== 'undefined' && error ? `<div class="alert alert-error">${ error }</div>` : '' }
-  ${ typeof success !== 'undefined' && success ? `<div class="alert alert-success">${ success }</div>` : '' }
-  <form method="POST" action="/register">
-    <input class="form-input" name="login_id" placeholder="Login ID (min 3 characters)" required />
-    <input class="form-input" name="nickname" placeholder="Nickname" required />
-    <input class="form-input" name="email" type="email" placeholder="Email" required />
-    <input class="form-input" type="password" name="password" placeholder="Password (min 6 characters)" required />
-    <button type="submit">Sign Up</button>
+  <form method="POST" action="/register" class="form">
+    <div class="form-group">
+      <label class="form-label" for="login_id">Login ID:</label>
+      <input class="form-input" id="login_id" name="login_id" placeholder="Login ID (min 3 characters)" required />
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label" for="nickname">Nickname:</label>
+      <input class="form-input" id="nickname" name="nickname" placeholder="Nickname" required />
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label" for="email">Email:</label>
+      <input class="form-input" id="email" name="email" type="email" placeholder="Email" required />
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label" for="password">Password:</label>
+      <input class="form-input" id="password" name="password" type="password" placeholder="Password (min 6 characters)" required />
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label" for="profile_image">Profile Image (optional)</label>
+      <input class="form-input" type="file" name="profile_image" accept="image/*" />
+    </div>
+
+    <button type="submit" class="btn-primary">Sign Up</button>
   </form>
   <div class="form-link">
     Already have an account? <a href="/login">Login here</a>
