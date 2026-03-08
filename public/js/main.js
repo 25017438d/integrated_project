@@ -1,5 +1,5 @@
-// Highlight active nav link
 document.addEventListener("DOMContentLoaded", () => {
+  // Highlight active nav link
   const navLinks = document.querySelectorAll("nav .nav-links a");
   const currentPath = window.location.pathname;
 
@@ -12,84 +12,94 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Search functionality
   const searchInput = document.getElementById("searchInput");
+
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
       const query = e.target.value.toLowerCase();
       const notices = document.querySelectorAll(".notice");
 
       notices.forEach((notice) => {
-        const description = notice.querySelector("p")?.textContent.toLowerCase() || "";
-        const venue = notice.querySelector("small")?.textContent.toLowerCase() || "";
-        const text = description + " " + venue;
+        const text = notice.textContent.toLowerCase();
 
         if (text.includes(query)) {
-          notice.style.display = "block";
+          notice.style.display = "";
         } else {
           notice.style.display = "none";
         }
       });
     });
   }
+
+  // Auto-dismiss flash messages
+  const flashAlerts = document.querySelectorAll(".flash-alert");
+
+  flashAlerts.forEach((alertNode) => {
+    const bsAlert = bootstrap.Alert.getOrCreateInstance(alertNode);
+
+    const timeout = setTimeout(() => {
+      bsAlert.close();
+    }, 3000);
+
+    alertNode.addEventListener("closed.bs.alert", () => {
+      clearTimeout(timeout);
+    });
+  });
 });
 
 // DOM Elements
-const noticeForm = document.getElementById("noticeForm");
 const modal = document.getElementById("imageModal");
 const modalImage = document.getElementById("modalImage");
 const modalClose = document.querySelector(".modal-close");
 
-console.log("Script loaded, looking for delete buttons");
-
-// Image Modal - Click to enlarge
+// Global click handler
 document.addEventListener("click", (e) => {
+  // Image modal open
   if (e.target.classList.contains("notice-image")) {
+    if (!modal || !modalImage) return;
+
     e.preventDefault();
-    console.log("Image clicked! Src:", e.target.src);
     modalImage.src = e.target.src;
     modal.classList.add("show");
     document.body.style.overflow = "hidden";
   }
 
-  // Delete button click
-  if (e.target.classList.contains("delete-btn")) {
-    console.log("Delete button clicked!");
+  // Delete notice
+  const deleteBtn = e.target.closest(".notice-delete-btn");
+
+  if (deleteBtn) {
     e.preventDefault();
-    e.stopPropagation();
-    if (confirm("Are you sure you want to delete this notice?")) {
-      const noticeId = e.target.dataset.id;
-      console.log("Deleting notice:", noticeId);
-      deleteNotice(noticeId);
-    }
+
+    const noticeId = deleteBtn.dataset.id;
+
+    if (!confirm("Are you sure you want to delete this notice?")) return;
+
+    deleteNotice(noticeId);
   }
 });
 
-// Function to close modal
+// Close modal function
 function closeModal() {
-  console.log("Closing modal");
+  if (!modal) return;
+
   modal.classList.remove("show");
   document.body.style.overflow = "auto";
 }
 
-// Function to delete notice
+// Delete notice function
 async function deleteNotice(noticeId) {
   try {
-    console.log("Sending DELETE request for notice:", noticeId);
     const response = await fetch(`/notices/${noticeId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log("Response status:", response.status);
 
     if (response.ok) {
-      const data = await response.json();
-      console.log("Success:", data);
       alert("Notice deleted successfully!");
       location.reload();
     } else {
       const error = await response.json();
-      console.log("Error:", error);
       alert("Error: " + (error.error || "Could not delete notice"));
     }
   } catch (error) {
@@ -106,36 +116,18 @@ if (modalClose) {
   });
 }
 
-// Close modal when clicking on dark background (outside image)
+// Close modal when clicking outside image
 if (modal) {
   modal.addEventListener("click", (e) => {
     if (e.target === modal) {
-      console.log("Clicked outside modal");
       closeModal();
     }
   });
 }
 
-// Close modal with Escape key
+// Close modal with ESC key
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closeModal();
   }
-});
-
-// Auto-dismiss flash messages
-document.addEventListener("DOMContentLoaded", () => {
-  const flashAlerts = document.querySelectorAll(".flash-alert");
-
-  flashAlerts.forEach((alertNode) => {
-    const bsAlert = bootstrap.Alert.getOrCreateInstance(alertNode);
-
-    const timeout = setTimeout(() => {
-      bsAlert.close();
-    }, 3000);
-
-    alertNode.addEventListener("closed.bs.alert", () => {
-      clearTimeout(timeout);
-    });
-  });
 });

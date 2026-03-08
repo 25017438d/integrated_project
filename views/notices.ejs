@@ -79,12 +79,12 @@
                     <div class="response">
                       <strong>${r.user ? (r.user.nickname || 'Anonymous') : 'Anonymous'}</strong>:
                       ${r.message ?? ''}
-                      <small>${new Date(r.date).toLocaleString([], {
+                      <small>${r.date ? new Date(r.date).toLocaleString([], {
                         month: 'short',
                         day: 'numeric',
                         hour: '2-digit',
                         minute: '2-digit'
-                      })}</small>
+                      }) : ''}</small>
                     </div>
                   `).join('')
                 : `<p>No replies yet</p>`
