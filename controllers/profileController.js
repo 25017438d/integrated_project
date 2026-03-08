@@ -1,5 +1,4 @@
 import User from "../models/User.js";
-import bcrypt from "bcryptjs";
 import fs from "fs";
 import path from "path";
 
@@ -13,39 +12,46 @@ export const updateProfile = async (req, res) => {
     const user = await User.findById(req.user._id);
 
     // Validate current password if they're trying to change password or sensitive info
-    if (currentPassword) {
-      const isMatch = await user.matchPassword(currentPassword);
-      if (!isMatch) {
-        req.flash("error", "Current password is incorrect");
-        return res.redirect("/profile");
-      }
+    if (!currentPassword) {
+      req.flash("error", "Current password is required to update profile");
+      return res.redirect("/profile");
+    }
+
+    const isMatch = await user.matchPassword(currentPassword);
+
+    if (!isMatch) {
+      req.flash("error", "Current password is incorrect");
+      return res.redirect("/profile");
     }
 
     // Update nickname if provided
-    if (nickname && nickname.trim()) {
-      if (nickname.length < 3) {
-        req.flash("error", "Nickname must be at least 3 characters");
-        return res.redirect("/profile");
-      }
-      user.nickname = nickname.trim();
+    const nicknameTrimmed = nickname ? nickname.trim() : "";
+
+    if (nicknameTrimmed.length < 3) {
+      req.flash("error", "Nickname must be at least 3 characters");
+      return res.redirect("/profile");
     }
 
+    user.nickname = nicknameTrimmed;
+
     // Update email if provided
-    if (email && email.trim()) {
+    const emailTrimmed = email ? email.trim() : "";
+
+    if (emailTrimmed && emailTrimmed !== user.email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
+      if (!emailRegex.test(emailTrimmed)) {
         req.flash("error", "Invalid email format");
         return res.redirect("/profile");
       }
 
       // Check if email already exists
-      const existingEmail = await User.findOne({ email: email.trim(), _id: { $ne: req.user._id } });
+      const existingEmail = await User.findOne({ email: emailTrimmed, _id: { $ne: req.user._id } });
       if (existingEmail) {
         req.flash("error", "Email already in use");
         return res.redirect("/profile");
       }
 
-      user.email = email.trim();
+      user.email = emailTrimmed;
     }
 
     await user.save();
@@ -79,16 +85,18 @@ export const updatePassword = async (req, res) => {
       return res.redirect("/profile");
     }
 
-    // Ensure new password differs from current password
-    if (currentPassword === newPassword) {
-      req.flash("error", "New password must be different from current password");
-      return res.redirect("/profile");
-    }
-
     // Always operate on the logged-in user
     const user = await User.findById(req.user._id);
     if (!user) {
       req.flash("error", "User not found");
+      return res.redirect("/profile");
+    }
+
+    // Ensure new password differs from current password
+    const samePassword = await user.matchPassword(newPassword);
+
+    if (samePassword) {
+      req.flash("error", "New password must be different from current password");
       return res.redirect("/profile");
     }
 
@@ -123,8 +131,7 @@ export const updateProfileImage = async (req, res) => {
     }
 
     if (user.profile_image) {
-      const relativePath = user.profile_image.replace(/^\/+/, "");
-      const oldImagePath = path.join(process.cwd(), "public", relativePath);
+      const oldImagePath = path.join(process.cwd(), "public", user.profile_image);
 
       if (fs.existsSync(oldImagePath)) {
         fs.unlinkSync(oldImagePath);
