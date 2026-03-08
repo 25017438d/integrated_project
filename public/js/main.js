@@ -107,16 +107,35 @@ if (modalClose) {
 }
 
 // Close modal when clicking on dark background (outside image)
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    console.log("Clicked outside modal");
-    closeModal();
-  }
-});
+if (modal) {
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      console.log("Clicked outside modal");
+      closeModal();
+    }
+  });
+}
 
 // Close modal with Escape key
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closeModal();
   }
+});
+
+// Auto-dismiss flash messages
+document.addEventListener("DOMContentLoaded", () => {
+  const flashAlerts = document.querySelectorAll(".flash-alert");
+
+  flashAlerts.forEach((alertNode) => {
+    const bsAlert = bootstrap.Alert.getOrCreateInstance(alertNode);
+
+    const timeout = setTimeout(() => {
+      bsAlert.close();
+    }, 3000);
+
+    alertNode.addEventListener("closed.bs.alert", () => {
+      clearTimeout(timeout);
+    });
+  });
 });

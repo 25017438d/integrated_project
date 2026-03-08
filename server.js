@@ -45,6 +45,14 @@ initializePassport(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Global view locals
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
+  next();
+});
+
 // Routes
 app.use("/", authRoutes);
 app.use("/notices", noticeRoutes);

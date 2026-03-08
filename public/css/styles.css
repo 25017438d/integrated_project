@@ -316,6 +316,22 @@ button:active {
   color: #3c3;
   border-color: #33cc33;
 }
+
+.flash-wrapper {
+  max-width: 900px;
+}
+
+.flash-alert {
+  margin-bottom: 12px;
+  border: none;
+  border-left: 5px solid;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.flash-alert:last-child {
+  margin-bottom: 0;
+}
+
 img {
   border-radius: 12px;
   margin-top: 10px;
@@ -764,14 +780,6 @@ img:hover {
   color: white;
   text-shadow: none;
   font-size: 28px;
-}
-
-.profile-card h3 {
-  margin: 0 0 2rem 0;
-  text-align: center;
-  color: white;
-  text-shadow: none;
-  font-size: 24px;
 }
 
 .profile-section {

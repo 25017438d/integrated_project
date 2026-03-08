@@ -9,13 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <% if (typeof error !== 'undefined' && error) { %>
-      <div class="alert alert-error"><%= error %></div>
-    <% } %>
-    <% if (typeof success !== 'undefined' && success) { %>
-      <div class="alert alert-success"><%= success %></div>
-    <% } %>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
         <a href="/" class="navbar-brand">Lost &amp; Found</a>
@@ -67,6 +60,28 @@
         </div>
       </div>
     </nav>
+
+    <% if (error && error.length > 0) { %>
+      <div class="flash-wrapper container mt-3">
+        <% error.forEach(msg => { %>
+          <div class="alert alert-danger alert-dismissible fade show flash-alert" role="alert">
+            <%= msg %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <% if (success && success.length > 0) { %>
+      <div class="flash-wrapper container mt-3">
+        <% success.forEach(msg => { %>
+          <div class="alert alert-success alert-dismissible fade show flash-alert" role="alert">
+            <%= msg %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
 
     <main class="container mt-4"><%- body %></main>
     
