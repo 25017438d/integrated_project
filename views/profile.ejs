@@ -1,0 +1,82 @@
+<%- include('layout', { user: user, body: `
+<div class="profile-container">
+  <div class="profile-card">
+    <h2>${user.nickname}'s Profile</h2>
+
+    <div class="profile-picture-section">
+      <form id="profileImageForm" action="/profile/update-image" method="POST" enctype="multipart/form-data">
+        <div class="current-picture" id="profilePictureContainer">
+          ${
+            user.profile_image && user.profile_image.trim() !== ""
+              ? `<img src="${user.profile_image}" alt="${user.nickname}" class="profile-picture" title="Click to change picture">`
+              : `
+                <div class="profile-picture-placeholder" title="Click to upload picture">
+                  <span>📷</span>
+                </div>
+              `
+          }
+          <p class="upload-hint">Click to change picture</p>
+        </div>
+
+        <input type="file" id="profileImage" name="profileImage" accept="image/*" hidden>
+        <div id="imageError" class="form-error" aria-live="polite"></div>
+      </form>
+    </div>
+
+    <div class="profile-section">
+      <h3>Account Information</h3>
+      <form action="/profile/update" method="POST" class="profile-form">
+        <div class="form-group">
+          <label for="login_id">Login ID:</label>
+          <input class="form-input" id="login_id" type="text" value="${user.login_id}" disabled>
+          <small>(Cannot be changed)</small>
+        </div>
+
+        <div class="form-group">
+          <label for="nickname">Nickname:</label>
+          <input class="form-input" id="nickname" name="nickname" type="text" value="${user.nickname}" required>
+          <small>At least 2 characters</small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input class="form-input" id="email" name="email" type="email" value="${user.email}" required>
+          <small>Must be a valid email address</small>
+        </div>
+
+        <button type="submit" class="btn-primary">Save Changes</button>
+      </form>
+    </div>
+
+    <div class="profile-section">
+      <h3>Change Password</h3>
+      <form id="passwordForm" action="/profile/update-password" method="POST" class="profile-form">
+        <div class="form-group">
+          <label for="currentPassword">Current Password:</label>
+          <input class="form-input" id="currentPassword" name="currentPassword" type="password" required>
+        </div>
+
+        <div class="form-group">
+          <label for="newPassword">New Password:</label>
+          <input class="form-input" id="newPassword" name="newPassword" type="password" required>
+          <small>At least 8 characters, with uppercase, lowercase, number, and special character</small>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm New Password:</label>
+          <input class="form-input" id="confirmPassword" name="confirmPassword" type="password" required>
+        </div>
+
+        <div id="passwordError" class="form-error" aria-live="polite"></div>
+        <button type="submit" class="btn-primary">Update Password</button>
+      </form>
+    </div>
+
+    <div class="member-info">
+      <p><strong>Member Since:</strong> <span>${new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span></p>
+    </div>
+  </div>
+</div>
+
+<script src="/js/profile.js"></script>
+` }) %>

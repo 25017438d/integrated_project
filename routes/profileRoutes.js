@@ -1,9 +1,14 @@
 import express from "express";
-import passport from "passport";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { registerUser, logoutUser } from "../controllers/authController.js";
+import {
+  getProfile,
+  updateProfile,
+  updatePassword,
+  updateProfileImage,
+} from "../controllers/profileController.js";
+import { ensureAuth } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -18,7 +23,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname) || "";
-    cb(null, `profile-${Date.now()}${ext}`);
+    cb(null, `profile-${req.user._id}-${Date.now()}${ext}`);
   },
 });
 
@@ -33,35 +38,23 @@ const upload = multer({
   },
 });
 
-router.get("/", (req, res) => res.render("index", { user: req.user }));
-
-router.get("/register", (req, res) => res.render("register", { user: req.user }));
+router.get("/", ensureAuth, getProfile);
+router.post("/update", ensureAuth, updateProfile);
+router.post("/update-password", ensureAuth, updatePassword);
 
 router.post(
-  "/register",
+  "/update-image",
+  ensureAuth,
   (req, res, next) => {
-    upload.single("profile_image")(req, res, function (err) {
+    upload.single("profileImage")(req, res, function (err) {
       if (err) {
-        req.flash("error", err.message || "Error uploading image");
-        return res.redirect("/register");
+        req.flash("error", err.message || "Error uploading file");
+        return res.redirect("/profile");
       }
       next();
     });
   },
-  registerUser,
+  updateProfileImage,
 );
-
-router.get("/login", (req, res) => res.render("login", { user: req.user }));
-
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/notices",
-    failureRedirect: "/login",
-    failureFlash: true,
-  }),
-);
-
-router.get("/logout", logoutUser);
 
 export default router;

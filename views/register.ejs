@@ -1,7 +1,7 @@
 <%- include('layout', { user: null, body: `
 <div class="form-container auth-form">
   <h2>Register</h2>
-  <form method="POST" action="/register" class="form">
+  <form method="POST" action="/register" enctype="multipart/form-data" class="form">
     <div class="form-group">
       <label class="form-label" for="login_id">Login ID:</label>
       <input class="form-input" id="login_id" name="login_id" placeholder="Login ID (min 3 characters)" required />
@@ -19,12 +19,12 @@
     
     <div class="form-group">
       <label class="form-label" for="password">Password:</label>
-      <input class="form-input" id="password" name="password" type="password" placeholder="Password (min 6 characters)" required />
+      <input class="form-input" id="password" name="password" type="password" placeholder="Password (min 8 characters)" required />
     </div>
     
     <div class="form-group">
       <label class="form-label" for="profile_image">Profile Image (optional)</label>
-      <input class="form-input" type="file" name="profile_image" accept="image/*" />
+      <input class="form-input" id="profile_image" type="file" name="profile_image" accept="image/*" />
     </div>
 
     <button type="submit" class="btn-primary">Sign Up</button>
