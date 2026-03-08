@@ -525,7 +525,7 @@ img:hover {
   opacity: 0.8;
 }
 .delete-btn {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-alt) 100%);
   padding: 8px 16px;
   font-size: 12px;
   box-shadow: 0 4px 10px rgba(245, 87, 108, 0.3);
