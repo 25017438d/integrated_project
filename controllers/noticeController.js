@@ -6,11 +6,12 @@ export const renderNoticeForm = (req, res) => {
 
 export const createNotice = async (req, res) => {
   try {
-    const { type, venue, contact, description } = req.body;
+    const { type, date, venue, contact, description } = req.body;
     const image = req.file ? `/uploads/${req.file.filename}` : null;
 
     await Notice.create({
       type,
+      date,
       venue,
       contact,
       description,

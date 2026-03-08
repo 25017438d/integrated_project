@@ -28,7 +28,13 @@
             : ``
         }
 
-        <p><small>📍 ${n.venue ?? ''} | 📞 ${n.contact ?? ''}</small></p>
+        <p>
+          <small>
+            📅 ${n.date ? new Date(n.date).toLocaleDateString() : ''} |
+            📍 ${n.venue ?? ''} |
+            📞 ${n.contact ?? ''}
+          </small>
+        </p>
 
         <div class="responses">
           <h4>Replies (${(n.responses && n.responses.length) ? n.responses.length : 0}):</h4>
@@ -39,7 +45,7 @@
                   <div class="response">
                     <strong>${r.user ? (r.user.nickname || 'Anonymous') : 'Anonymous'}</strong>:
                     ${r.message ?? ''}
-                    <small>${new Date(r.date).toLocaleDateString()}</small>
+                    <small>${new Date(r.date).toLocaleDateString()} ${new Date(r.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
                   </div>
                 `).join('')
               : `<p>No replies yet</p>`
