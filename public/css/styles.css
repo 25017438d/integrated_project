@@ -519,6 +519,12 @@ img:hover {
   box-shadow: 0 6px 15px rgba(245, 87, 108, 0.4);
 }
 
+.notices-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 .notice-image {
   cursor: pointer;
   transition: all 0.3s ease;
@@ -569,6 +575,22 @@ img:hover {
 
 #searchInput::placeholder {
   color: #999;
+}
+
+.notices-header,
+#noticesList {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#noticesList {
+  list-style: none;
+  margin-top: 0;
+  margin-left: 0;
+  padding-left: 0;
 }
 
 .form-container {

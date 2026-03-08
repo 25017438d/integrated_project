@@ -44,7 +44,7 @@ export const getAllNotices = async (req, res) => {
       return notice;
     });
 
-    res.render("notices", { notices: normalized, user: req.user });
+    res.render("notices", { notices: normalized, user: req.user, pageTitle: "All Notices" });
   } catch (error) {
     console.error("Error fetching notices:", error);
     res.status(500).send("Error loading notices");
@@ -58,7 +58,7 @@ export const getMyNotices = async (req, res) => {
       .populate("owner", "nickname")
       .populate("responses.user", "nickname");
 
-    res.render("notices", { notices, user: req.user });
+    res.render("notices", { notices, user: req.user, pageTitle: "My Notices" });
   } catch (error) {
     console.error("Error fetching my notices:", error);
     res.status(500).send("Error loading my notices");
