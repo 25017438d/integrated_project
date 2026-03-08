@@ -265,27 +265,68 @@ select:focus {
   border-color: var(--color-primary);
   box-shadow: var(--ring-primary-soft);
 }
-button {
-  padding: 12px 24px;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-alt) 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 10px 18px;
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.3s ease;
+
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+
+  color: white;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-alt) 100%);
+
+  box-shadow: var(--shadow-primary-soft);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary-strong);
+  filter: brightness(1.05);
+}
+
+.btn:active {
+  transform: translateY(0);
   box-shadow: var(--shadow-primary-soft);
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-primary-strong);
+/* Small buttons (used in notices) */
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 6px;
 }
 
-button:active {
-  transform: translateY(0);
+/* Danger button (delete) */
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-alt) 100%);
 }
+
+/* Outline button option */
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid white;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .alert {
   padding: 15px 20px;
   margin: 15px 0;
@@ -394,6 +435,14 @@ img:hover {
   color: #666;
   font-size: 12px;
 }
+
+.notice-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .responses {
   margin-top: 20px;
   padding-top: 15px;
@@ -523,16 +572,6 @@ img:hover {
 }
 .notice-image:hover {
   opacity: 0.8;
-}
-.delete-btn {
-  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-alt) 100%);
-  padding: 8px 16px;
-  font-size: 12px;
-  box-shadow: 0 4px 10px rgba(245, 87, 108, 0.3);
-}
-
-.delete-btn:hover {
-  box-shadow: 0 6px 15px rgba(245, 87, 108, 0.4);
 }
 
 .notices-page {
