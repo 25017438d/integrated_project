@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import fs from "fs";
 import path from "path";
+import { validatePassword } from "../utils/passwordPolicy.js";
 
 export const getProfile = (req, res) => {
   res.render("profile", { user: req.user });
@@ -79,9 +80,9 @@ export const updatePassword = async (req, res) => {
       return res.redirect("/profile");
     }
 
-    // Enforce modern password policy: min 8 characters
-    if (newPassword.length < 8) {
-      req.flash("error", "New password must be at least 8 characters");
+    const passwordValidation = validatePassword(newPassword);
+    if (!passwordValidation.valid) {
+      req.flash("error", passwordValidation.message);
       return res.redirect("/profile");
     }
 

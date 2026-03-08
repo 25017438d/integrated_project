@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import { validatePassword } from "../utils/passwordPolicy.js";
 
 export const registerUser = async (req, res) => {
   try {
@@ -15,8 +16,9 @@ export const registerUser = async (req, res) => {
       return res.redirect("/register");
     }
 
-    if (password.length < 8) {
-      req.flash("error", "Password must be at least 8 characters");
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.valid) {
+      req.flash("error", passwordValidation.message);
       return res.redirect("/register");
     }
 

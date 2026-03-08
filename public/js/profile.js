@@ -40,22 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
     passwordForm.addEventListener("submit", (e) => {
       const newPassword = document.getElementById("newPassword")?.value || "";
       const confirmPassword = document.getElementById("confirmPassword")?.value || "";
-      const complexity = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
       if (passwordError) passwordError.textContent = "";
 
       if (newPassword !== confirmPassword) {
         e.preventDefault();
         if (passwordError) passwordError.textContent = "New passwords do not match.";
-        return;
-      }
-
-      if (!complexity.test(newPassword)) {
-        e.preventDefault();
-        if (passwordError) {
-          passwordError.textContent =
-            "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.";
-        }
       }
     });
   }

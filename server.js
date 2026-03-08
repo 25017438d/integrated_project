@@ -13,6 +13,7 @@ import profileRoutes from "./routes/profileRoutes.js";
 import initializePassport from "./config/passport.js";
 import connectDB from "./config/db.js";
 import mongoose from "mongoose";
+import { PASSWORD_MIN_LENGTH } from "./utils/passwordPolicy.js";
 
 dotenv.config();
 connectDB();
@@ -50,6 +51,7 @@ app.use((req, res, next) => {
   res.locals.user = req.user || null;
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
+  res.locals.passwordMinLength = PASSWORD_MIN_LENGTH;
   next();
 });
 
