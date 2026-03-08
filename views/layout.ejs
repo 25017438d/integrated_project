@@ -36,7 +36,7 @@
               <li class="nav-item">
                 <a href="/notices/new" class="nav-link">Create Notice</a>
               </li>
-              <li class="nav-user">
+              <li class="nav-item">
                 <a href="/profile" class="nav-link">Profile</a>
               </li>
             <% } %>
@@ -44,9 +44,11 @@
 
           <ul class="nav-links navbar-nav ms-auto">
             <% if (user) { %>
-              <li class="nav-user d-flex align-items-center">
-                <span class="username text-light me-3">Welcome, <%= user.nickname %></span>
-                <a href="/logout" class="btn btn-outline-light btn-sm btn-logout">Logout</a>
+              <li class="nav-item d-flex align-items-center">
+                <span class="text-light me-3">Welcome, <%= user.nickname %></span>
+              </li>
+              <li class="nav-item">
+                <a href="/logout" class="nav-link btn-logout">Logout</a>
               </li>
             <% } else { %>
               <li class="nav-item">
