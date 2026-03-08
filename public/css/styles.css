@@ -266,6 +266,7 @@ select:focus {
   box-shadow: var(--ring-primary-soft);
 }
 
+button,
 .btn {
   display: inline-flex;
   align-items: center;
@@ -291,12 +292,14 @@ select:focus {
     filter 0.2s ease;
 }
 
+button:hover,
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-primary-strong);
   filter: brightness(1.05);
 }
 
+button:active,
 .btn:active {
   transform: translateY(0);
   box-shadow: var(--shadow-primary-soft);
